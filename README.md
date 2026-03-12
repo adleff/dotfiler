@@ -46,7 +46,7 @@ Files in `linux/home/` or `mac/home/` overlay on top — same path wins.
 ## Getting started
 
 ```bash
-git clone git@github.com:YOUR_USER/dotfiler.git ~/dotfiler
+git clone git@github.com:adleff/dotfiler.git ~/dotfiler
 cd ~/dotfiler
 chmod +x bin/install.sh bin/check.sh
 bin/install.sh
