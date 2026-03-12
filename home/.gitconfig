@@ -1,0 +1,17 @@
+[user]
+  name = Your Name
+  email = you@example.com
+
+[core]
+  excludesfile = ~/.config/git/ignore
+
+# Identity switching by directory — add as many as you need.
+# Drop a <name>.gitconfig in home/.config/git/ for each identity.
+[includeIf "gitdir:~/dev/personal/"]
+  path = ~/.config/git/personal.gitconfig
+
+[includeIf "gitdir:~/dev/work/"]
+  path = ~/.config/git/work.gitconfig
+
+[init]
+  defaultBranch = main

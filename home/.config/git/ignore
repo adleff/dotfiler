@@ -1,0 +1,22 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# direnv
+.envrc.local
+
+# Secrets (never commit these)
+*.pem
+*.key
+*.p12
+*.pfx
+.env
+.env.*
+!.env.example

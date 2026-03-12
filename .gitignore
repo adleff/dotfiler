@@ -1,0 +1,6 @@
+# Don't accidentally commit real secrets if you fork and customize
+*.pem
+*.key
+home/.aws/credentials
+home/.ssh/id_*
+*.bak.*
