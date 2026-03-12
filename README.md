@@ -11,6 +11,8 @@ A lightweight, OS-aware dotfile manager with no dependencies beyond bash.
 Symlinks your config files into place, backs up anything in the way,
 and gives you an audit tool to verify everything is wired correctly.
 
+Your config files live in a repo — versioned, diffable, portable, and recoverable. The symlink mechanism is just the delivery layer that puts them where your tools expect to find them. Fork it and let git do the rest.
+
 ---
 
 ## How it works
