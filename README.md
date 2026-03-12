@@ -1,10 +1,12 @@
 ```
-      _       _    __ _ _
-   __| | ___ | |_ / _(_) | ___ _ __
-  / _` |/ _ \| __| |_| | |/ _ \ '__|
- | (_| | (_) | |_|  _| | |  __/ |
-  \__,_|\___/ \__|_| |_|_|\___|_|
-
+      _       _    __ _ _           ) )
+   __| | ___ | |_ / _(_) | ___    ( (
+  / _` |/ _ \| __| |_| | |/ _ \  .-------.
+ | (_| | (_) | |_|  _| | |  __/  |       |]
+  \__,_|\___/ \__|_| |_|_|\___|  |       |
+                                  `-------'
+                                    `---'
+          your dotfiles. your machine. your rules.
 ```
 
 Your dotfiles are config. Config belongs in git.
@@ -13,6 +15,8 @@ dotfiler is a bash framework for versioning your dotfiles in a git repo
 and symlinking them into place across any machine you work on. The goal
 is a single source of truth for your environment — one `git clone` and
 `bin/install.sh` away from feeling at home on any machine.
+
+The symlink mechanism is the delivery layer. Git is the point.
 
 ---
 
@@ -40,7 +44,7 @@ dotfiler/
 ```
 
 Files in `home/` are symlinked on every platform. Files in `linux/home/`
-or `mac/home/` are layered on top — same relative path wins.
+or `mac/home/` are layered on top for that OS — same relative path wins.
 
 ### Why overlays?
 
@@ -51,43 +55,52 @@ common files full of `if [[ "$(uname)" == ... ]]` conditionals, overlays
 let each platform have its own version of a file while everything else
 stays shared.
 
-If you only use one platform, ignore the other overlay directories entirely.
+If you only use one platform, ignore the other overlay directory entirely.
 
 ### Adding your own overlay
 
-The `linux` and `mac` overlays are defined in `bin/install.sh` as a detection check and a `link_tree` call. Adding a new
-context (a remote server, a work VM, a container) means adding a directory
-and a few lines to the script.
+The `linux` and `mac` overlays are just a detection flag and a `link_tree`
+call in `bin/install.sh` — not magic. Adding a new context (a remote
+server, a work VM, a container) means adding a directory and a few lines
+to the script.
+
+Overlays are **additive and ordered** — each one layers on top of the
+previous. A file in a later overlay overwrites the symlink from an earlier
+one. So if both `is_linux` and `is_server` are true, `linux/home/` applies
+first, then `server/home/` on top. Put more specific overlays last.
 
 For example, to add a `server` overlay for a headless Linux environment
-where you want a different `.bashrc` than your desktop Linux setup:
+with a leaner `.bashrc` than your desktop:
 
 **1. Create the overlay directory and add your files:**
 ```bash
 mkdir -p server/home
-# add any files that should differ on servers
 cp linux/home/.bashrc server/home/.bashrc
-# edit server/home/.bashrc to remove desktop-only stuff
+# trim server/home/.bashrc down to headless-only config
 ```
 
-**2. Add detection logic to `bin/install.sh`:**
+**2. Add detection and linking to `bin/install.sh`:**
 ```bash
 # near the top with the other detection flags
 is_server=false
-if [[ -f /etc/server-marker ]]; then   # use whatever makes sense for your setup
+if [[ -f /etc/server-marker ]]; then   # use whatever fits your setup
   is_server=true
 fi
 
-# near the bottom with the other link_tree calls
+# near the bottom, AFTER the linux block so it layers on top
 if $is_server; then
   link_tree "$REPO_DIR/server/home"
 fi
 ```
 
-**3. Add the same block to `bin/check.sh`** so the audit knows about it.
+**3. Update the detection output line** so you know what was detected at install time:
+```bash
+echo "Detected: mac=$is_mac linux=$is_linux server=$is_server"
+```
 
-That's it — the `link_tree` function handles the rest. Files in your new
-overlay directory will be symlinked on top of `home/`, same as `linux` and `mac`.
+**4. Add the same detection block to `bin/check.sh`** so the audit knows about it.
+
+That's it — `link_tree` handles the rest.
 
 ---
 
