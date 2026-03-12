@@ -55,8 +55,7 @@ If you only use one platform, ignore the other overlay directories entirely.
 
 ### Adding your own overlay
 
-The `linux` and `mac` overlays are defined in `bin/install.sh` — they're
-not magic, just a detection check and a `link_tree` call. Adding a new
+The `linux` and `mac` overlays are defined in `bin/install.sh` as a detection check and a `link_tree` call. Adding a new
 context (a remote server, a work VM, a container) means adding a directory
 and a few lines to the script.
 
