@@ -5,13 +5,12 @@
  | (_| | (_) | |_|  _| | |  __/ |
   \__,_|\___/ \__|_| |_|_|\___|_|
 
+  your dotfiles. your machine. your rules.
 ```
 
 A lightweight, OS-aware dotfile manager with no dependencies beyond bash.
 Symlinks your config files into place, backs up anything in the way,
 and gives you an audit tool to verify everything is wired correctly.
-
-Your config files live in a repo — versioned, diffable, portable, and recoverable. The symlink mechanism is just the delivery layer that puts them where your tools expect to find them. Fork it and let git do the rest.
 
 ---
 
@@ -46,7 +45,7 @@ Files in `linux/home/` or `mac/home/` overlay on top — same path wins.
 ## Getting started
 
 ```bash
-git clone git@github.com:adleff/dotfiler.git ~/dotfiler
+git clone git@github.com:YOUR_USER/dotfiler.git ~/dotfiler
 cd ~/dotfiler
 chmod +x bin/install.sh bin/check.sh
 bin/install.sh
