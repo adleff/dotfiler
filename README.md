@@ -5,7 +5,6 @@
  | (_| | (_) | |_|  _| | |  __/ |
   \__,_|\___/ \__|_| |_|_|\___|_|
 
-  your dotfiles. your machine. your rules.
 ```
 
 A lightweight, OS-aware dotfile manager with no dependencies beyond bash.
