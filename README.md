@@ -5,6 +5,7 @@
  | (_| | (_) | |_|  _| | |  __/ |
   \__,_|\___/ \__|_| |_|_|\___|_|
 
+  your dotfiles. your machine. your rules.
 ```
 
 Your dotfiles are config. Config belongs in git.
@@ -14,6 +15,7 @@ and symlinking them into place across any machine you work on. The goal
 is a single source of truth for your environment — one `git clone` and
 `bin/install.sh` away from feeling at home on any machine.
 
+The symlink mechanism is the delivery layer. Git is the point.
 
 ---
 
@@ -52,9 +54,44 @@ common files full of `if [[ "$(uname)" == ... ]]` conditionals, overlays
 let each platform have its own version of a file while everything else
 stays shared.
 
-If you only use one platform, ignore the other overlay directory. If you
-have a third context — a remote server, a work VM, a container — add
-another overlay. The pattern scales to however many environments you manage.
+If you only use one platform, ignore the other overlay directory entirely.
+
+### Adding your own overlay
+
+The `linux` and `mac` overlays are defined in `bin/install.sh` — they're
+not magic, just a detection check and a `link_tree` call. Adding a new
+context (a remote server, a work VM, a container) means adding a directory
+and a few lines to the script.
+
+For example, to add a `server` overlay for a headless Linux environment
+where you want a different `.bashrc` than your desktop Linux setup:
+
+**1. Create the overlay directory and add your files:**
+```bash
+mkdir -p server/home
+# add any files that should differ on servers
+cp linux/home/.bashrc server/home/.bashrc
+# edit server/home/.bashrc to remove desktop-only stuff
+```
+
+**2. Add detection logic to `bin/install.sh`:**
+```bash
+# near the top with the other detection flags
+is_server=false
+if [[ -f /etc/server-marker ]]; then   # use whatever makes sense for your setup
+  is_server=true
+fi
+
+# near the bottom with the other link_tree calls
+if $is_server; then
+  link_tree "$REPO_DIR/server/home"
+fi
+```
+
+**3. Add the same block to `bin/check.sh`** so the audit knows about it.
+
+That's it — the `link_tree` function handles the rest. Files in your new
+overlay directory will be symlinked on top of `home/`, same as `linux` and `mac`.
 
 ---
 
