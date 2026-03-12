@@ -191,6 +191,7 @@ cp ~/templates/terraform-ignore ~/dev/work/my-new-repo/.gitignore
 - **Non-destructive.** Existing files are always backed up, never deleted.
 - **Auditable.** `check.sh --audit` tells you exactly what's wired and what isn't.
 - **Fork-friendly.** The framework ships without personal config — add your own.
+- **Keep secrets out.** The `.gitignore` blocks common credential files, but it's not exhaustive. Never commit SSH private keys, API tokens, or anything sensitive. If it's a secret, it doesn't belong in a repo.
 
 ---
 
