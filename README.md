@@ -51,7 +51,7 @@ common files full of `if [[ "$(uname)" == ... ]]` conditionals, overlays
 let each platform have its own version of a file while everything else
 stays shared.
 
-If you only use one platform, ignore the other overlay directory entirely.
+If you only use one platform, ignore the other overlay directories entirely.
 
 ### Adding your own overlay
 
