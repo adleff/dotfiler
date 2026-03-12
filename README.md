@@ -6,7 +6,6 @@
   \__,_|\___/ \__|_| |_|_|\___|  |       |
                                   `-------'
                                     `---'
-          your dotfiles. your machine. your rules.
 ```
 
 Your dotfiles are config. Config belongs in git.
@@ -15,8 +14,6 @@ dotfiler is a bash framework for versioning your dotfiles in a git repo
 and symlinking them into place across any machine you work on. The goal
 is a single source of truth for your environment — one `git clone` and
 `bin/install.sh` away from feeling at home on any machine.
-
-The symlink mechanism is the delivery layer. Git is the point.
 
 ---
 
